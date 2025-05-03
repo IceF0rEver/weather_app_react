@@ -1,7 +1,7 @@
 import { useState, createContext } from 'react';
 import { useLocation } from './hooks/useLocation.tsx';
-import HomePage from './components/HomePage.tsx';
-import FavoritesPage from './components/FavoritesPage.tsx';
+import HomePage from './components/pages/home-page.tsx';
+import FavoritesPage from './components/pages/favorites-page.tsx';
 
 interface CurrentParams {
 	latitude: number,

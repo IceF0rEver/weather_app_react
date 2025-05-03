@@ -1,6 +1,6 @@
-import { Current } from "./Current";
-import { Hourly } from "./Hourly";
-import { Daily } from "./Daily";
+import { Current } from "../Current";
+import { Hourly } from "../Hourly";
+import { Daily } from "../Daily";
 
 interface Param{
     onPageShow: () => void,
