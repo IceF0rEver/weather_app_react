@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useContext } from 'react';
-import { CurrentCoordContext } from '../App';
+import { ActiveCityContext } from '../App';
 import * as maptilersdk from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 import { PrecipitationLayer } from "@maptiler/weather";
@@ -8,8 +8,7 @@ import { PrecipitationLayer } from "@maptiler/weather";
 export default function Map() {
     maptilersdk.config.apiKey = import.meta.env.VITE_MAP_KEY;
 
-    const current = useContext(CurrentCoordContext);
-
+    const { activeCity } = useContext(ActiveCityContext)!;
     const [coord, setCoord] = useState({ lng: 0, lat: 0})
     const mapContainer = useRef<any>(null);
     const map = useRef<any>(null);
@@ -17,12 +16,12 @@ export default function Map() {
     const layer = new PrecipitationLayer();
 
     const zoom = 11;
-
+    
     useEffect(() => {
-        if (current && current.latitude !== 0 && current.longitude !== 0) {
-            setCoord({ lng: current.longitude, lat: current.latitude });
-        };
-    }, [current]);
+        if (activeCity !== null && activeCity.latitude !== 0 && activeCity.longitude !== 0) {
+            setCoord({ lng: activeCity.longitude, lat: activeCity.latitude });
+        }
+    }, [activeCity]);
 
     useEffect(() => {
         map.current = new maptilersdk.Map({

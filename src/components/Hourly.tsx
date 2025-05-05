@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useFetch } from '../hooks/useFetch';
-import { CurrentCoordContext } from '../App';
+import { ActiveCityContext } from '../App';
 import { LineChartComponent } from './LineChart';
 
 export function Hourly() {
@@ -23,16 +23,16 @@ export function Hourly() {
     const [items, setItems] = useState<Item[]>([]);
     const [itemsChart, setItemsChart] = useState<ItemChart[]>([]);
         
-    const current = useContext(CurrentCoordContext);
+    const { activeCity } = useContext(ActiveCityContext)!;
     const { fetchDatas } = useFetch({ url });
     
     
     useEffect(() => {
-        if (current && current.latitude !== 0 && current.longitude !== 0) {
-            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${current.latitude}&lon=${current.longitude}&appid=${apiKey}&lang=fr&units=metric`;
+        if (activeCity && activeCity.latitude !== 0 && activeCity.longitude !== 0) {
+            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${activeCity.latitude}&lon=${activeCity.longitude}&appid=${apiKey}&lang=fr&units=metric`;
             setUrl(url);
         }
-    }, [current]);
+    }, [activeCity]);
 
     useEffect(() => {
         if (fetchDatas) {

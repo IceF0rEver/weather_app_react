@@ -17,6 +17,7 @@ export interface FetchDataWithCoord{
         }];
     }];
     dt: number;
+    id: number;
     main: {
         temp: number;
         humidity: number;
@@ -34,6 +35,7 @@ export interface FetchDataWithCoord{
         };
         name: string;
         country: string;
+        id: number;
     }
 }
 interface dateTime {

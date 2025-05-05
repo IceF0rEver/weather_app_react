@@ -1,46 +1,23 @@
 import { useState, useEffect, useContext } from 'react';
 import { useFetch } from '../hooks/useFetch';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { CurrentCoordContext } from '../App';
-import { LocalStorageData } from '../types/localStorage';
+import { ActiveCityContext } from '../App';
 import Map from './Map';
 
 export function Current() {
     const apiKey = import.meta.env.VITE_API_KEY;
     
-    const [url, setUrl] = useState('');
-    const [currentData, setCurrentData] = useState<LocalStorageData>();
+    const { activeCity } = useContext(ActiveCityContext)!;
     
-	const current = useContext(CurrentCoordContext);
+    const [url, setUrl] = useState('');
+    
     const { fetchDatas } = useFetch({ url });
-
-
+    
     useEffect(() => {
-        if (current && current.latitude !== 0 && current.longitude !== 0) {
-            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${current.latitude}&lon=${current.longitude}&appid=${apiKey}&lang=fr&units=metric`;
+        if (activeCity !== null && activeCity.latitude !== 0 && activeCity.longitude !== 0) {
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${activeCity.latitude}&lon=${activeCity.longitude}&appid=${apiKey}&lang=fr&units=metric`;
             setUrl(url);
         }
-    }, [current]);
-
-    useEffect(() => {
-        if (fetchDatas && current){
-            setCurrentData({
-                latitude: current.latitude,
-                longitude: current.longitude,
-                city: fetchDatas.name,
-                country: fetchDatas.sys.country,
-                current: true,
-                isActive: true,
-            })
-        }
-    }, [fetchDatas]);
-    
-    useLocalStorage({
-        action: 'add',
-        key: 'current',
-        data: currentData,
-    });    
-
+    }, [activeCity]);
 
     return (
         <div>
